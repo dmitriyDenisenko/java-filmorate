@@ -20,7 +20,7 @@ public class Film {
     @Positive
     private int duration;
 
-    public Film(int id, String name, String description, String releaseDate, int duration) throws ValidationException {
+    public Film(int id, String name, String description, String releaseDate, int duration) {
         this.id = id;
         this.name = name;
         this.description = description;

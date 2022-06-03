@@ -18,7 +18,7 @@ public class User {
     private String name;
     private LocalDate birthday;
 
-    public User(int id, String email, String login, String name, String birthday) throws ValidationException {
+    public User(int id, String email, String login, String name, String birthday) {
         this.id = id;
         this.email = email;
         if(!login.contains(" ")){

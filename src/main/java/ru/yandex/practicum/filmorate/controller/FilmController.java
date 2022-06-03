@@ -22,8 +22,8 @@ public class FilmController {
     }
 
     @PostMapping("/films")
-    public Film addNewFilm(@Validated @RequestBody Film film) throws ExistingException {
-        if(film.getId() == 0){
+    public Film addNewFilm(@Validated @RequestBody Film film) {
+        if (film.getId() == 0) {
             film.setId(filmsId);
             filmsId++;
         }
@@ -38,7 +38,7 @@ public class FilmController {
     }
 
     @PutMapping("/films")
-    public Film updateFilm(@Validated @RequestBody Film film) throws ExistingException {
+    public Film updateFilm(@Validated @RequestBody Film film) {
         if (allFilms.containsKey(film.getId())) {
             allFilms.put(film.getId(), film);
             log.info("Movie {} update successfully", film.getName());
@@ -46,7 +46,5 @@ public class FilmController {
         }
         log.info("This movie is not already on the list");
         throw new ExistingException(film.getName() + " not exists");
-
-
     }
 }

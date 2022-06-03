@@ -20,14 +20,14 @@ class FilmTest {
     }
 
     @Test
-    public void shouldBeNotValidateWhenEmptyName() throws ValidationException {
+    public void shouldBeNotValidateWhenEmptyName() {
         Film film = new Film(1, "", "des", "2022-12-12", 100);
         Set<ConstraintViolation<Film>> validatorSet = validator.validate(film);
         assertFalse(validatorSet.isEmpty());
     }
 
     @Test
-    public void shouldBeNotValidateWhenLongDes() throws ValidationException {
+    public void shouldBeNotValidateWhenLongDes() {
         Film film = new Film(1, "name",
                 "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" +
                         "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" +
@@ -37,7 +37,7 @@ class FilmTest {
     }
 
     @Test
-    public void shouldBeNotValidateWhenNotPositiveDuration() throws ValidationException {
+    public void shouldBeNotValidateWhenNotPositiveDuration() {
         Film film = new Film(1, "name", "des", "2022-12-12", -100);
         Set<ConstraintViolation<Film>> validatorSet = validator.validate(film);
         assertFalse(validatorSet.isEmpty());

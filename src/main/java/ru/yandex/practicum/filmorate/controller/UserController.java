@@ -15,18 +15,18 @@ public class UserController {
     private HashMap<Integer, User> allUsers = new HashMap<>();
 
     @GetMapping("/users")
-    public Collection<User> findAll(){
+    public Collection<User> findAll() {
         log.info("Get request with all users received");
         return allUsers.values();
     }
 
     @PostMapping("/users")
-    public User createUser(@RequestBody User user) throws ExistingException {
-        if(user.getId() == 0){
+    public User createUser(@RequestBody User user) {
+        if (user.getId() == 0) {
             user.setId(usersId);
             usersId++;
         }
-        if(!allUsers.containsKey(user.getId())){
+        if (!allUsers.containsKey(user.getId())) {
             allUsers.put(user.getId(), user);
             log.info("User {} added successfully", user.getName());
             return user;
@@ -38,8 +38,8 @@ public class UserController {
     }
 
     @PutMapping("/users")
-    public User updateUser(@RequestBody User user) throws ExistingException {
-        if(allUsers.containsKey(user.getId())){
+    public User updateUser(@RequestBody User user) {
+        if (allUsers.containsKey(user.getId())) {
             allUsers.put(user.getId(), user);
             log.info("User {} update successfully", user.getName());
             return user;

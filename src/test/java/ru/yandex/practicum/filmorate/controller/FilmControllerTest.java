@@ -14,10 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FilmControllerTest {
     @Test
-    public void shouldNormalAdding() throws ValidationException, ExistingException {
+    public void shouldNormalAdding() {
         FilmController controller = new FilmController();
         Film film = new Film(0, "Name","Des","2001-12-12", 100);
         controller.addNewFilm(film);
-        Assertions.assertEquals("[Film(id=1, name=Name, description=Des, releaseDate=2001-12-12, duration=100)]", controller.findAllFilms().toString());
+        Assertions.assertEquals("[Film(id=1, name=Name, description=Des, releaseDate=2001-12-12, " +
+                "duration=100)]", controller.findAllFilms().toString());
     }
 }
