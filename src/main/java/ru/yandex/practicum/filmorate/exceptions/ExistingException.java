@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.exceptions;
 
-public class ExistingException extends Error{
-    public ExistingException(String massage){
+public class ExistingException extends RuntimeException {
+    public ExistingException(String massage) {
         super(massage);
     }
 }
