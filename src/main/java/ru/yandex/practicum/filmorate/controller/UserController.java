@@ -1,50 +1,64 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exceptions.ExistingException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 @Slf4j
 @RestController
 public class UserController {
-    private int usersId = 1;
-    private HashMap<Integer, User> allUsers = new HashMap<>();
+    private UserStorage userStorage;
+    private UserService userService;
+
+    @Autowired
+    public UserController(InMemoryUserStorage inMemoryUserStorage, UserService userService) {
+        this.userStorage = inMemoryUserStorage;
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     public Collection<User> findAll() {
-        log.info("Get request with all users received");
-        return allUsers.values();
+        return userStorage.findAll();
+    }
+
+    @GetMapping("/users/{id}")
+    public User findUserById(@PathVariable Integer id) {
+        return userStorage.findUserById(id);
+    }
+
+    @GetMapping("/users/{id}/friends/common/{otherId}")
+    public Collection<User> findMutualFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
+        return userService.findMutualFriends(id, otherId);
+    }
+
+    @GetMapping("/users/{id}/friends")
+    public Collection<User> findFriends(@PathVariable Integer id) {
+        return userService.findAllFriends(id);
     }
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        if (user.getId() == 0) {
-            user.setId(usersId);
-            usersId++;
-        }
-        if (!allUsers.containsKey(user.getId())) {
-            allUsers.put(user.getId(), user);
-            log.info("User {} added successfully", user.getName());
-            return user;
-        } else {
-            log.info("This User is already on the list");
-            throw new ExistingException(user.getName() + " already exists");
-        }
-
+        return userStorage.createUser(user);
     }
 
     @PutMapping("/users")
     public User updateUser(@RequestBody User user) {
-        if (allUsers.containsKey(user.getId())) {
-            allUsers.put(user.getId(), user);
-            log.info("User {} update successfully", user.getName());
-            return user;
-        }
-        log.info("This User is not already on the list");
-        throw new ExistingException(user.getName() + " not exists");
+        return userStorage.updateUser(user);
+    }
+
+    @PutMapping("/users/{id}/friends/{friendId}")
+    public void addFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        userService.addFriend(id, friendId);
+    }
+
+    @DeleteMapping("/users/{id}/friends/{friendId}")
+    public void removeFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        userService.removeFromFriends(id, friendId);
     }
 }
