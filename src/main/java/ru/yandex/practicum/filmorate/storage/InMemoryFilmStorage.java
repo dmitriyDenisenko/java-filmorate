@@ -30,7 +30,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.info("Movie {} added successfully", film.getName());
             return film;
         } else {
-            log.info("This movie is already on the list");
+            log.error("This movie is already on the list");
             throw new ExistingException(film.getName() + " already exists");
         }
     }
@@ -42,7 +42,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.info("Movie {} update successfully", film.getName());
             return film;
         }
-        log.info("This movie is not already on the list");
+        log.error("This movie is not already on the list");
         throw new ExistingException(film.getName() + " not exists");
     }
 
@@ -52,6 +52,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.info("Film {} find", id);
             return allFilms.get(id);
         }
+        log.error("Film {} don`t find", id);
         throw new ExistingException("User does not exist");
     }
 }

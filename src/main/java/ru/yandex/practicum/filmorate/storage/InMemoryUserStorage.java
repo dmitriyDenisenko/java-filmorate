@@ -31,7 +31,7 @@ public class InMemoryUserStorage implements UserStorage {
             log.info("User {} added successfully", user.getName());
             return user;
         } else {
-            log.info("This User is already on the list");
+            log.error("This User is already on the list");
             throw new ExistingException(user.getName() + " already exists");
         }
     }
@@ -50,7 +50,7 @@ public class InMemoryUserStorage implements UserStorage {
                 return user;
             }
         }
-        log.info("This User is not already on the list");
+        log.error("This User is not already on the list");
         throw new ExistingException(user.getName() + " not exists");
     }
 
@@ -60,7 +60,7 @@ public class InMemoryUserStorage implements UserStorage {
             log.info("User find");
             return allUsers.get(id);
         }
-        log.info("User don`t find");
+        log.error("User don`t find");
         throw new ExistingException("User does not exist");
     }
 }
