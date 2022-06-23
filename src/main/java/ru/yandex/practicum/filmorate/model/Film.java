@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
+import ru.yandex.practicum.filmorate.exceptions.ExistingException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,8 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class Film {
@@ -19,6 +22,8 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private int duration;
+    private int rate;
+    private Set<Integer> likes = new HashSet<>();
 
     public Film(int id, String name, String description, String releaseDate, int duration) {
         this.id = id;
@@ -32,4 +37,23 @@ public class Film {
         this.duration = duration;
     }
 
+    public void addLike(Integer id) {
+        likes.add(id);
+        rate++;
+    }
+
+    public void removeLike(Integer id) {
+        if (likes.contains(id)) {
+            likes.remove(id);
+            rate--;
+        } else {
+            throw new ExistingException("This user did not like");
+        }
+
+
+    }
+
+    public int getAmountLikes() {
+        return rate;
+    }
 }
