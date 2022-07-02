@@ -24,6 +24,8 @@ public class Film {
     private int duration;
     private int rate;
     private Set<Integer> likes = new HashSet<>();
+    private Set<Genre> genres;
+    private MPA mpa;
 
     public Film(int id, String name, String description, String releaseDate, int duration) {
         this.id = id;
